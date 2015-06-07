@@ -10,7 +10,7 @@ $searchString = preg_replace('#[^A-Za-z0-9 -]#', '', $_GET['search_string']);
 $searchString = str_replace(' ', '+', $searchString);
 
 $curl = curl_init();
-curl_setopt($curl, CURLOPT_URL, "https://thepiratebay.se/search/$searchString/0/7/0");
+curl_setopt($curl, CURLOPT_URL, "https://thepiratebay.vg/search/$searchString/0/7/0");
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($curl, CURLOPT_ENCODING, 'gzip');
 
