@@ -50,8 +50,17 @@ foreach($resultsObj->childNodes as $tr) {
 
 	$resultItem['name'] = trim($mainInfoObj->firstChild->textContent);
 	$resultItem['url'] = $mainInfoObj->childNodes->item(1)->getAttribute('href');
-	$resultItem['meta'] = trim($mainInfoObj->lastChild->textContent);
 	$resultItem['seeds'] = $seedsObj->textContent;
+
+	// Meta fields
+	$meta = trim($mainInfoObj->lastChild->textContent);
+	preg_match("/^Uploaded ([^,]+), Size ([^,]+), ULed by (.*)$/", $meta, $matches);
+	list($_, $uploadDate, $size, $uploader) = $matches;
+	$resultItem += array(
+		'uploadDate' => $uploadDate,
+		'size' => $size,
+		'uploader' => $uploader
+	);
 
 	$resultsArray[] = $resultItem;
 }
@@ -67,7 +76,9 @@ foreach($resultsObj->childNodes as $tr) {
 <table>
 	<thead>
 		<th>Name</th>
-		<th>Meta</th>
+		<th>Upload date</th>
+		<th>Size</th>
+		<th>Uploader</th>
 		<th>Seeds</th>
 		<th>Magnet URI</th>
 	</thead>
@@ -75,7 +86,9 @@ foreach($resultsObj->childNodes as $tr) {
 	<?php foreach($resultsArray as $result) { ?>
 		<tr>
 			<td><?php echo htmlspecialchars($result['name']); ?></td>
-			<td><?php echo htmlspecialchars($result['meta']); ?></td>
+			<td><?php echo htmlspecialchars($result['uploadDate']); ?></td>
+			<td><?php echo htmlspecialchars($result['size']); ?></td>
+			<td><?php echo htmlspecialchars($result['uploader']); ?></td>
 			<td align="right"><?php echo htmlspecialchars($result['seeds']); ?></td>
 			<td><a href="<?php echo htmlspecialchars($result['url']); ?>">Magnet</a></td>
 		</tr>
