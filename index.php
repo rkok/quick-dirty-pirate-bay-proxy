@@ -4,10 +4,10 @@ header('Content-Type: text/html; charset=utf-8');
 
 if(isset($_GET['search_string']) && !empty($_GET['search_string'])) {
 	$searchString = preg_replace('#[^A-Za-z0-9 -]#', '', $_GET['search_string']);
-	$searchString = str_replace(' ', '+', $searchString);
+	$searchStringUrl = str_replace(' ', '+', $searchString);
 
 	$curl = curl_init();
-	curl_setopt($curl, CURLOPT_URL, "https://thepiratebay.org/search/$searchString/0/7/0");
+	curl_setopt($curl, CURLOPT_URL, "https://thepiratebay.org/search/$searchStringUrl/0/7/0");
 	# curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 	curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($curl, CURLOPT_ENCODING, 'gzip');
