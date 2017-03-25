@@ -48,7 +48,7 @@ const rutorrentSend = (torrentUrl, onSuccess, onFailure) => {
 		let dummy = document.createElement('a');
 		dummy.href = res.url;
 
-		if( ! res.redirected || dummy.search.indexOf('result[]=Success') === -1) {
+		if(dummy.search.indexOf('result[]=Success') === -1) {
 			fail(res);
 			return false;
 		}
