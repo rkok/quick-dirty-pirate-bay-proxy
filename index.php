@@ -20,6 +20,9 @@ if(isset($_GET['search_string']) && !empty($_GET['search_string'])) {
 	// Trim useless whitespace
 	$result = preg_replace("/>[\t\s\n]+</", "><", $result);
 
+	// Trim scripts
+	$result = preg_replace("/\/\* <!\[CDATA.*\]\]> \*\//", '', $result);
+
 	// Suppress ugly HTML formatting warnings in error log
 	libxml_use_internal_errors(true);
 
