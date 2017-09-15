@@ -14,4 +14,6 @@ return [
 			'password' => 'changeme',
 		],
 	],
+	// Amount of result pages to fetch
+	'npages' => 5,
 ];

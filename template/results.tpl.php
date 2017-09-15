@@ -1,8 +1,3 @@
-<?php
-$config = @include_once(__DIR__ . '/../config.php');
-$config = $config ?: [];
-?>
-
 <style>
 .rutorrent-send {
 	display: inline-block;
