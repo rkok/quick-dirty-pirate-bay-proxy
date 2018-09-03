@@ -16,10 +16,18 @@ if(isset($_GET['search_string']) && !empty($_GET['search_string'])) {
 		# curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_ENCODING, 'gzip');
+		curl_setopt($ch, CURLOPT_HEADER, true);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 
-		if(!$result = curl_exec($curl)) {
-			die('Error: ' . curl_error($curl) . '<br>Response code: ' . curl_getinfo($curl, CURLINFO_HTTP_CODE));
+		$result = curl_exec($curl);
+		$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+		if(!$result) {
+			die("Error: " . curl_error($curl) . "<br>Response code: {$httpCode}");
+		} elseif($httpCode !== 200) {
+			die("Error: HTTP code $httpCode returned");
 		}
+
 		curl_close($curl);
 
 		// Trim useless whitespace
