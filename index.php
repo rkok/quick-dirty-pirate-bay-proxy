@@ -6,14 +6,13 @@ header('Content-Type: text/html; charset=utf-8');
 
 if(isset($_GET['search_string']) && !empty($_GET['search_string'])) {
 	$searchString = preg_replace('#[^A-Za-z0-9 -]#', '', $_GET['search_string']);
-	$searchStringUrl = str_replace(' ', '+', $searchString);
 	$resultsArray = array();
 	$npages = ($config && $config['npages']) ? $config['npages'] : 1;
 
 	for($p=1; $p<$npages+1; $p++) {
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_VERBOSE, true);
-		curl_setopt($curl, CURLOPT_URL, "https://tpb.party/search/$searchStringUrl/$p/7/0");
+		curl_setopt($curl, CURLOPT_URL, "https://tpb.party/search/$searchString/$p/7/0");
 		// curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_ENCODING, 'gzip');

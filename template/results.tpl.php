@@ -24,7 +24,7 @@
  */
 const rutorrentSend = (torrentUrl, onSuccess, onFailure) => {
 	const fail = err => {
-		console.log("Error sending to ruTorrent. Torrent URL / fetch result: ", torrentUrl, err);
+		console.error("Error sending to ruTorrent. Torrent URL / fetch result: ", torrentUrl, err);
 		onFailure();
 	};
 
