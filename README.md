@@ -3,6 +3,8 @@ quick-dirty-pirate-bay-proxy
 
 A quick and dirty Pirate Bay proxy written in PHP
 
+[![QDTPB Demo Image](doc/qdtpb-demo-sm.png)](doc/qdtpb-demo.png)
+
 Installation
 ------------
 
