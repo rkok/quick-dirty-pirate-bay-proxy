@@ -8,7 +8,7 @@ Installation
 
 Usually: just place the code in a web-hosted directory. That's all there is to it. :-)
 
-If you run into trouble, make sure your server runs PHP 7.0+ with the 'curl' and 'dom' extensions.
+If that didn't work, make sure your server runs PHP 7.0+ with the 'curl' and 'dom' extensions.
 
 ruTorrent support
 -----------------
