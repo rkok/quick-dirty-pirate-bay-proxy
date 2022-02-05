@@ -11,29 +11,35 @@ if(isset($_GET['search_string']) && !empty($_GET['search_string'])) {
 	$npages = ($config && $config['npages']) ? $config['npages'] : 1;
 
 	for($p=0; $p<$npages; $p++) {
-		$out = fopen('php://output', 'w');
-
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_VERBOSE, true);
-		curl_setopt($curl, CURLOPT_STDERR, $out);
 		curl_setopt($curl, CURLOPT_URL, "https://tpb.party/search/$searchStringUrl/$p/7/0");
 		// curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_ENCODING, 'gzip');
 		curl_setopt($curl, CURLOPT_TIMEOUT, 5);
 
+		if (@$config['debug']) {
+			$out = fopen('php://output', 'w');
+			curl_setopt($curl, CURLOPT_STDERR, $out);
+		}
 
 		if (@$config['proxy']) {
 			curl_setopt($curl, CURLOPT_PROXY, $config['proxy']);
 		}
 
 		$result = curl_exec($curl);
-		fclose($out);
-		$debug = ob_get_clean();
+
+		if (@$config['debug']) {
+			fclose($out);
+			$debug = ob_get_clean();
+			echo "Raw cURL output:<br><pre>$debug</pre>";
+        }
+
 		$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
 		if(!$result || $httpCode !== 200) {
-			die("Error: HTTP code $httpCode returned<br>Raw cURL output:<br><pre>$debug</pre>");
+		    die("Error: HTTP code $httpCode returned (0 == cURL issue)");
 		}
 
 		curl_close($curl);
