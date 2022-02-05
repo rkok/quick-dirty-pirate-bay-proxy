@@ -16,12 +16,12 @@ if(isset($_GET['search_string']) && !empty($_GET['search_string'])) {
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_VERBOSE, true);
 		curl_setopt($curl, CURLOPT_STDERR, $out);
-		curl_setopt($curl, CURLOPT_URL, "https://thepiratebay.org/search/$searchStringUrl/$p/7/0");
-		# curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($curl, CURLOPT_URL, "https://tpb.party/search/$searchStringUrl/$p/7/0");
+		// curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_ENCODING, 'gzip');
-		curl_setopt($ch, CURLOPT_HEADER, true);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+		curl_setopt($curl, CURLOPT_TIMEOUT, 5);
+
 
 		if (@$config['proxy']) {
 			curl_setopt($curl, CURLOPT_PROXY, $config['proxy']);
@@ -52,29 +52,29 @@ if(isset($_GET['search_string']) && !empty($_GET['search_string'])) {
 
 		$xpath = new DOMXPath($doc);
 
-		$resultsQuery = $xpath->query('//table[@id="searchResult"]');
+		$rows = $xpath->query('//table[@id="searchResult"]//tr');
 
-		if(empty($resultsQuery)) {
+		if(empty($rows)) {
 			break;
 		}
 
-		$resultsRaw = $resultsQuery->item(0)->childNodes;
-
-		foreach($resultsRaw as $tr) {
-			if($tr->tagName == 'thead') {
+		foreach($rows as $i => $tr) {
+			if ($i === 0) {
 				continue;
 			}
+
 			$resultItem = array();
-			$mainInfoObj = $tr->childNodes->item(1);
+			/** @var DOMElement $mainInfoObj */
+			$mainInfoObj = $tr->childNodes->item(1); // 2nd cell: name, link and metadata
 			$seedsObj = $tr->childNodes->item(2);
 
-			$resultItem['name'] = trim($mainInfoObj->firstChild->textContent);
-			$resultItem['url'] = $mainInfoObj->childNodes->item(1)->getAttribute('href');
+			$resultItem['name'] = trim($xpath->query('.//*[@class="detLink"]', $mainInfoObj)->item(0)->nodeValue);
+			$resultItem['url'] = $xpath->query('.//a[starts-with(@href, "magnet:")]', $mainInfoObj)->item(0)->attributes->getNamedItem('href')->value;
 			$resultItem['seeds'] = $seedsObj->textContent;
 
 			// Meta fields
-			$meta = trim($mainInfoObj->lastChild->textContent);
-			preg_match("/^Uploaded ([^,]+), Size ([^,]+), ULed by (.*)$/", $meta, $matches);
+			$meta = trim($mainInfoObj->textContent);
+			preg_match("/Uploaded ([^,]+), Size ([^,]+), ULed by (.*)$/", $meta, $matches);
 			list($_, $uploadDate, $size, $uploader) = $matches;
 			$resultItem += array(
 				'uploadDate' => $uploadDate,
