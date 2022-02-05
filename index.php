@@ -10,7 +10,7 @@ if(isset($_GET['search_string']) && !empty($_GET['search_string'])) {
 	$resultsArray = array();
 	$npages = ($config && $config['npages']) ? $config['npages'] : 1;
 
-	for($p=0; $p<$npages; $p++) {
+	for($p=1; $p<$npages+1; $p++) {
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_VERBOSE, true);
 		curl_setopt($curl, CURLOPT_URL, "https://tpb.party/search/$searchStringUrl/$p/7/0");
