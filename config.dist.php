@@ -1,7 +1,7 @@
 <?php
 
 return [
-	// ruTorrent support
+	// Optional: ruTorrent support
 	// If enabled, this will add a button which
 	// sends the torrent to ruTorrent for downloading
 	'rutorrent' => [
@@ -14,7 +14,7 @@ return [
 			'password' => 'changeme',
 		],
 	],
-	// Amount of result pages to fetch
+	// Optional: amount of result pages to fetch
 	'npages' => 5,
 	// Optional: cURL-compatible proxy string like "socks5h://localhost:1080"
 	'proxy' => 'socks5h://localhost:1091'
