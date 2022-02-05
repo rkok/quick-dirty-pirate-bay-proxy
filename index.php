@@ -19,6 +19,10 @@ if(isset($_GET['search_string']) && !empty($_GET['search_string'])) {
 		curl_setopt($ch, CURLOPT_HEADER, true);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 
+		if (@$config['proxy']) {
+			curl_setopt($curl, CURLOPT_PROXY, $config['proxy']);
+		}
+
 		$result = curl_exec($curl);
 		$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 

@@ -16,4 +16,6 @@ return [
 	],
 	// Amount of result pages to fetch
 	'npages' => 5,
+	// Optional: cURL-compatible proxy string like "socks5h://localhost:1080"
+	'proxy' => 'socks5h://localhost:1091'
 ];
