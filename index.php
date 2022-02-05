@@ -65,8 +65,8 @@ if(isset($_GET['search_string']) && !empty($_GET['search_string'])) {
 		}
 
 		foreach($rows as $i => $tr) {
-			if ($i === 0) {
-				continue;
+			if ($i === 0 || $i === $rows->length - 1) {
+				continue; // Skip first and last row (column headings + page numbers)
 			}
 
 			$resultItem = array();
