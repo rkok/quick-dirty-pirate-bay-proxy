@@ -95,7 +95,7 @@ if(isset($_GET['search_string']) && !empty($_GET['search_string'])) {
 <!DOCTYPE html>
 <html>
 <head>
-	<title>TPB</title>
+	<title><?=isset($searchString) ? "$searchString - " : ''?>TPB</title>
 </head>
 <body>
 <?php
